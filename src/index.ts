@@ -134,6 +134,8 @@ const main = async () => {
   // );
 
 
+  console.log(`Loaded pools`, pools.length);
+
   setInterval(async () => {
     timer++;
 
