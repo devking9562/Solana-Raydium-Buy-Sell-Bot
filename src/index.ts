@@ -132,7 +132,8 @@ const main = async () => {
   //     process.env.TOKEN_MINT
   //   )
   // );
-
+  console.log("volume bot started!!!");
+  const pools = await raydiumSwap.loadPoolKeys(config.liquidityFile);
 
   console.log(`Loaded pools`, pools.length);
 
