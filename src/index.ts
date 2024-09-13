@@ -23,6 +23,70 @@ const raydiumSwap = new RaydiumSwap(
   process.env.WALLET_PRIVATE_KEY
 );
 
+const swap = async (swapConfig) => {
+  /**
+   * The RaydiumSwap instance for handling swaps.
+   */
+  console.log(`Raydium swap initialized`);
+  console.log(
+    `Swapping ${swapConfig.tokenAAmount} of ${swapConfig.tokenAAddress} for ${swapConfig.tokenBAddress}...`
+  );
+
+  /**
+   * Load pool keys from the Raydium API to enable finding pool information.
+   */
+
+  /**
+   * Find pool information for the given token pair.
+   */
+  const poolInfo = raydiumSwap.findPoolInfoForTokens(
+    swapConfig.tokenAAddress,
+    swapConfig.tokenBAddress
+  );
+
+  /**
+   * Prepare the swap transaction with the given parameters.
+   */
+  const tx = await raydiumSwap.getSwapTransaction(
+    swapConfig.tokenBAddress,
+    swapConfig.tokenAAmount,
+    poolInfo,
+    swapConfig.maxLamports,
+    swapConfig.useVersionedTransaction,
+    swapConfig.direction
+  );
+
+  /**
+   * Depending on the configuration, execute or simulate the swap.
+   */
+  if (swapConfig.executeSwap) {
+    /**
+     * Send the transaction to the network and log the transaction ID.
+     */
+    const txid = swapConfig.useVersionedTransaction
+      ? await raydiumSwap.sendVersionedTransaction(
+          tx as VersionedTransaction,
+          swapConfig.maxRetries
+        )
+      : await raydiumSwap.sendLegacyTransaction(
+          tx as Transaction,
+          swapConfig.maxRetries
+        );
+
+    console.log(`https://solscan.io/tx/${txid}`);
+  } else {
+    /**
+     * Simulate the transaction and log the result.
+     */
+    const simRes = swapConfig.useVersionedTransaction
+      ? await raydiumSwap.simulateVersionedTransaction(
+          tx as VersionedTransaction
+        )
+      : await raydiumSwap.simulateLegacyTransaction(tx as Transaction);
+
+    console.log("Err", simRes);
+  }
+};
 
 const fetchTokenPrice = async (tokenAddress) => {
   // const response1 = await Moralis.SolApi.token.getTokenPrice({
