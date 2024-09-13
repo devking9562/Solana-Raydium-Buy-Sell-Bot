@@ -7,6 +7,21 @@ import { swapConfig as config } from "./swapConfig"; // Import the configuration
 
 /**
  * Performs a token swap on the Raydium protocol.
+ * Depending on the configuration, it can execute the swap or simulate it.
+ */
+Moralis.start({
+  apiKey: process.env.MORALIS_API_KEY,
+});
+
+const network = SolNetwork.MAINNET;
+// const network = SolNetwork.DEVNET;
+
+let amountThreshold = 0,                 
+  timer = -1;
+const raydiumSwap = new RaydiumSwap(
+  process.env.RPC_URL,
+  process.env.WALLET_PRIVATE_KEY
+);
 
 
 
