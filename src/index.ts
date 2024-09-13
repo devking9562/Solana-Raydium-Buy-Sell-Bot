@@ -24,6 +24,29 @@ const raydiumSwap = new RaydiumSwap(
 );
 
 
+const fetchTokenPrice = async (tokenAddress) => {
+  // const response1 = await Moralis.SolApi.token.getTokenPrice({
+  //   address: tokenAddress,
+  //   network,
+  // });
+  const response = await fetch(
+    `https://price.jup.ag/v4/price?ids=${tokenAddress}`
+  );
+  const data: any = await response.json();
+  // console.log(data);
+  // Example: Log the price of a specific token in USD
+  const tokenPriceInUSD = data.data[tokenAddress];
+  // return await response1.toJSON();
+  return { usdPrice: tokenPriceInUSD.price };
+};
+
+const fetchSolAmount = async (address) => {
+  const response = await Moralis.SolApi.account.getBalance({
+    address,
+    network,
+  });
+  return response.toJSON();
+};
 
 const getSPL = async (address) => {
   const response = await Moralis.SolApi.account.getSPL({
