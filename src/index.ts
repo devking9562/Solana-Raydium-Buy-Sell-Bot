@@ -188,6 +188,15 @@ const main = async () => {
     } else {
       const solPrice = await fetchTokenPrice(
         "So11111111111111111111111111111111111111112"
+      );
+
+      const tokenPrice = await fetchTokenPrice(process.env.TOKEN_MINT);
+
+      if (amountThreshold == 0)
+        amountThreshold = solPrice.usdPrice / tokenPrice.usdPrice;
+
+      avgAmount += solPrice.usdPrice / tokenPrice.usdPrice;
+
 
     }
   }, 1500);
