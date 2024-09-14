@@ -197,7 +197,15 @@ const main = async () => {
 
       avgAmount += solPrice.usdPrice / tokenPrice.usdPrice;
 
-
+      console.log(
+        solPrice.usdPrice,
+        "     ",
+        tokenPrice.usdPrice,
+        "    ",
+        amountThreshold,
+        "     ",
+        avgAmount
+      );
     }
   }, 1500);
 };
