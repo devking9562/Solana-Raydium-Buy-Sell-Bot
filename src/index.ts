@@ -182,32 +182,7 @@ const main = async () => {
         swapConfig.tokenAAmount = parseFloat(solCurrentAmount.solana) - 0.0002;
         swap(swapConfig);
       }
-      amountThreshold = avgAmount / 20;
-      avgAmount = 0;
-      timer = -1;
-    } else {
-      const solPrice = await fetchTokenPrice(
-        "So11111111111111111111111111111111111111112"
-      );
 
-      const tokenPrice = await fetchTokenPrice(process.env.TOKEN_MINT);
-
-      if (amountThreshold == 0)
-        amountThreshold = solPrice.usdPrice / tokenPrice.usdPrice;
-
-      avgAmount += solPrice.usdPrice / tokenPrice.usdPrice;
-
-      console.log(
-        solPrice.usdPrice,
-        "     ",
-        tokenPrice.usdPrice,
-        "    ",
-        amountThreshold,
-        "     ",
-        avgAmount
-      );
-    }
-  }, 1500);
 };
 
 main();
